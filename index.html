@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ghaybah Timer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #0a0a0a;
+            color: #ffffff;
+            margin: 50px;
+        }
+        .timer-container {
+            font-size: 28px;
+            font-weight: bold;
+            padding: 20px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>🌍 It has been <span id="ghaybahDays"></span> days since Ghaybah…</h1>
+    <p class="timer-container">⏳ Let's Act Now! Serve the Cause of Imam al-Mahdi (a.t.f.s.)</p>
+
+    <script>
+        function calculateDaysSinceGhaybah() {
+            const ghaybahStartDate = new Date(873, 5, 4); // Approx. June 4, 873 AD
+            const today = new Date();
+            
+            const timeDifference = today - ghaybahStartDate;
+            const daysSinceGhaybah = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+            
+            document.getElementById("ghaybahDays").textContent = daysSinceGhaybah.toLocaleString();
+        }
+
+        calculateDaysSinceGhaybah();
+    </script>
+
+</body>
+</html>

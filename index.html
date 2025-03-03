@@ -6,26 +6,63 @@
     <title>Ghaybah Timer</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Poppins', sans-serif;
             text-align: center;
-            background-color: #0a0a0a;
+            background: linear-gradient(to bottom, #121212, #000000);
             color: #ffffff;
             margin: 50px;
         }
+        
         .timer-container {
-            font-size: 28px;
+            font-size: 40px;
             font-weight: bold;
             padding: 20px;
             border-radius: 10px;
             background: rgba(255, 255, 255, 0.1);
             display: inline-block;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 36px;
+            margin-bottom: 15px;
+        }
+
+        #ghaybahDays {
+            color: #FFD700; /* Gold color for emphasis */
+            font-size: 48px;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 15px 25px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #ffffff;
+            background: linear-gradient(90deg, #ff8c00, #ff4500);
+            border: none;
+            border-radius: 8px;
+            text-decoration: none;
+            box-shadow: 0 4px 10px rgba(255, 140, 0, 0.5);
+            transition: all 0.3s ease-in-out;
+        }
+
+        .cta-button:hover {
+            background: linear-gradient(90deg, #ff4500, #ff8c00);
+            transform: scale(1.05);
+            box-shadow: 0 6px 14px rgba(255, 140, 0, 0.8);
         }
     </style>
 </head>
 <body>
 
     <h1>🌍 It has been <span id="ghaybahDays"></span> days since Ghaybah…</h1>
-    <p class="timer-container">⏳ Let's Act Now! Serve the Cause of Imam al-Mahdi (a.t.f.s.)</p>
+    <div class="timer-container">⏳ Every moment counts!</div>
+    
+    <br><br>
+    <a href="https://your-action-link.com" class="cta-button">🚀 Let's Act Now! Serve the Cause of Imam al-Mahdi (a.t.f.s.)</a>
 
     <script>
         function calculateDaysSinceGhaybah() {

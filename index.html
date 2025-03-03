@@ -1,152 +1,237 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ghaybah Timer (Hijri)</title>
-    <style>
-        body {
-            font-family: 'Poppins', sans-serif;
-            text-align: center;
-            background: linear-gradient(to bottom, #121212, #000000);
-            color: #ffffff;
-            margin: 50px;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ghaybah Timer (Hijri + API)</title>
+  <style>
+    /* Base Reset / Body */
+    body {
+      margin: 0;
+      padding: 40px 20px;
+      background-color: #121212;
+      color: #ffffff;
+      font-family: 'Poppins', sans-serif;
+      text-align: center;
+    }
 
-        .timer-container {
-            font-size: 28px;
-            font-weight: bold;
-            padding: 20px;
-            border-radius: 10px;
-            background: rgba(255, 255, 255, 0.1);
-            display: inline-block;
-            box-shadow: 0 0 15px rgba(0, 255, 255, 0.6);
-            margin-bottom: 20px;
-        }
+    h1 {
+      font-size: 36px;
+      margin-bottom: 20px;
+    }
 
-        h1 {
-            font-size: 36px;
-            margin-bottom: 15px;
-        }
+    /* Neon Glow Container */
+    .timer-container {
+      display: inline-block;
+      padding: 20px;
+      border-radius: 10px;
+      background: rgba(0, 0, 0, 0.5);
+      box-shadow: 0 0 20px rgba(0, 150, 255, 0.8);
+      margin-bottom: 30px;
+    }
 
-        .time-list {
-            text-align: left;
-            margin: 0 auto;
-            display: inline-block;
-            font-size: 24px;
-            list-style: none;
-        }
+    .time-list {
+      list-style: none;
+      padding: 0;
+      margin: 0 auto;
+      display: inline-block;
+      text-align: left;
+      font-size: 24px;
+    }
 
-        .time-list li {
-            padding: 5px;
-            font-weight: bold;
-        }
+    .time-list li {
+      padding: 8px 0;
+      line-height: 1.4;
+    }
 
-        .cta-button {
-            display: inline-block;
-            padding: 15px 25px;
-            font-size: 18px;
-            font-weight: bold;
-            color: #ffffff;
-            background: linear-gradient(90deg, #8a2be2, #4b0082);
-            border: none;
-            border-radius: 8px;
-            text-decoration: none;
-            box-shadow: 0 4px 10px rgba(138, 43, 226, 0.5);
-            transition: all 0.3s ease-in-out;
-        }
+    /* CTA Button */
+    .cta-button {
+      display: inline-block;
+      padding: 15px 25px;
+      font-size: 18px;
+      font-weight: bold;
+      color: #ffffff;
+      background: linear-gradient(90deg, #8a2be2, #4b0082);
+      border: none;
+      border-radius: 8px;
+      text-decoration: none;
+      box-shadow: 0 4px 10px rgba(138, 43, 226, 0.5);
+      transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    }
 
-        .cta-button:hover {
-            background: linear-gradient(90deg, #4b0082, #8a2be2);
-            transform: scale(1.05);
-            box-shadow: 0 6px 14px rgba(138, 43, 226, 0.8);
-        }
+    .cta-button:hover {
+      background: linear-gradient(90deg, #4b0082, #8a2be2);
+      transform: scale(1.05);
+      box-shadow: 0 6px 14px rgba(138, 43, 226, 0.8);
+    }
 
-        .brand-footer {
-            margin-top: 30px;
-            font-size: 18px;
-            color: #aaaaaa;
-        }
-    </style>
+    .brand-footer {
+      margin-top: 30px;
+      font-size: 18px;
+      color: #aaaaaa;
+    }
+  </style>
 </head>
 <body>
+  <h1>🌍 Time Since the Ghaybah:</h1>
 
-    <h1>🌍 Time Since the Ghaybah:</h1>
-    <div class="timer-container">
-        <ul class="time-list">
-            <li>🟣 <strong>Total Hijri Years:</strong> <span id="totalHijriYears"></span> years</li>
-            <li>🔵 <strong>Total Months (Hijri):</strong> <span id="totalHijriMonths"></span> months</li>
-            <li>🟢 <strong>Total Days:</strong> <span id="totalHijriDays"></span> days</li>
-            <li>🟠 <strong>Total Hours:</strong> <span id="totalHijriHours"></span> hours</li>
-            <li>🔴 <strong>Total Seconds:</strong> <span id="totalHijriSeconds"></span> seconds</li>
-        </ul>
-    </div>
+  <div class="timer-container">
+    <ul class="time-list">
+      <!-- These values come from the AlAdhan API + difference calculation -->
+      <li>🕋 <strong>Total Hijri Years:</strong> <span id="totalHijriYears">...</span> years</li>
+      <li>🌙 <strong>Total Hijri Months:</strong> <span id="totalHijriMonths">...</span> months</li>
+      <li>📅 <strong>Total Days (Hijri):</strong> <span id="totalHijriDays">...</span> days</li>
 
-    <br>
-    <a href="https://fatimiyahtech.org" class="cta-button">🚀 Let's Act Now! Serve the Cause of Imam al-Mahdi (a.t.f.s.)</a>
+      <!-- These values are from the approximate Gregorian difference -->
+      <li>⏰ <strong>Total Hours:</strong> <span id="totalHours">...</span> hours</li>
+      <li>⏳ <strong>Total Seconds:</strong> <span id="totalSeconds">...</span> seconds</li>
+    </ul>
+  </div>
 
-    <div class="brand-footer">
-        Powered by <strong>FatimiyahTech.org</strong>
-    </div>
+  <a href="https://fatimiyahtech.org" class="cta-button">
+    🚀 Let's Act Now! Serve the Cause of Imam al-Mahdi (a.t.f.s.)
+  </a>
 
-    <script>
-        function hijriTimer() {
-            // Ghaybah al-Kubra started on 10 Shawwal 329 AH
-            const hijriStartYear = 329;
-            const hijriStartMonth = 10; // Shawwal
-            const hijriStartDay = 1;
+  <div class="brand-footer">
+    Powered by <strong>FatimiyahTech.org</strong>
+  </div>
 
-            // Get current Hijri date using Intl API
-            const today = new Date();
-            const hijriDate = new Intl.DateTimeFormat('en-TN-u-ca-islamic', {
-                year: 'numeric',
-                month: 'numeric',
-                day: 'numeric'
-            }).format(today);
+  <script>
+    /************************************************************
+     * 1) GET ACCURATE CURRENT HIJRI DATE FROM ALADHAN API
+     ************************************************************/
+    async function getCurrentHijriDate() {
+      try {
+        // 1. Get today's Gregorian date in DD-MM-YYYY format
+        const today = new Date();
+        const dd = String(today.getDate()).padStart(2, '0');
+        const mm = String(today.getMonth() + 1).padStart(2, '0'); // Months are zero-based in JS
+        const yyyy = today.getFullYear();
 
-            // Extract Hijri year, month, day
-            let [currentHijriMonth, currentHijriDay, currentHijriYear] = hijriDate.split("/").map(Number);
+        // 2. Call AlAdhan API to convert today's Gregorian date to Hijri
+        //    Example endpoint: https://api.aladhan.com/v1/gToH?date=mm-dd-yyyy
+        const apiUrl = `https://api.aladhan.com/v1/gToH?date=${mm}-${dd}-${yyyy}`;
+        const response = await fetch(apiUrl);
+        const data = await response.json();
 
-            // Calculate difference
-            let yearsPassed = currentHijriYear - hijriStartYear;
-            let monthsPassed = currentHijriMonth - hijriStartMonth;
-            let daysPassed = currentHijriDay - hijriStartDay;
-
-            if (daysPassed < 0) {
-                monthsPassed -= 1;
-                daysPassed += 30; // Approximate month length
-            }
-            if (monthsPassed < 0) {
-                yearsPassed -= 1;
-                monthsPassed += 12;
-            }
-
-            // Convert to total units
-            const totalHijriMonths = yearsPassed * 12 + monthsPassed;
-            const totalHijriDays = Math.round(totalHijriMonths * 29.53 + daysPassed); // Approximate lunar month
-            const totalHijriHours = totalHijriDays * 24;
-            const totalHijriMinutes = totalHijriHours * 60;
-            const totalHijriSeconds = totalHijriMinutes * 60;
-
-            // Display the results
-            document.getElementById("totalHijriYears").textContent = yearsPassed;
-            document.getElementById("totalHijriMonths").textContent = totalHijriMonths.toLocaleString();
-            document.getElementById("totalHijriDays").textContent = totalHijriDays.toLocaleString();
-            document.getElementById("totalHijriHours").textContent = totalHijriHours.toLocaleString();
-            document.getElementById("totalHijriSeconds").textContent = totalHijriSeconds.toLocaleString();
+        if (data && data.data && data.data.hijri) {
+          const { day, month, year } = data.data.hijri;
+          return {
+            day: parseInt(day, 10),
+            month: parseInt(month.number, 10),
+            year: parseInt(year, 10),
+          };
+        } else {
+          throw new Error("Invalid data from AlAdhan API");
         }
+      } catch (err) {
+        console.error("Error fetching Hijri date:", err);
+        return null;
+      }
+    }
 
-        // Live updating seconds
-        function updateSeconds() {
-            let secondsEl = document.getElementById("totalHijriSeconds");
-            let seconds = parseInt(secondsEl.textContent.replace(/,/g, "")) + 1;
-            secondsEl.textContent = seconds.toLocaleString();
-            setTimeout(updateSeconds, 1000);
-        }
+    /************************************************************
+     * 2) CALCULATE HIJRI DIFFERENCE FROM 10 SHAWWAL 329 AH
+     ************************************************************
+     * We'll do a simple difference:
+     *   yearsPassed = currentYear - 329
+     *   monthsPassed = currentMonth - 10
+     *   daysPassed = currentDay - 10
+     * Then adjust if negative.
+     ************************************************************/
+    function getHijriDifference(currentHijri) {
+      // Ghaybah al-Kubra: 10 Shawwal 329 AH
+      const startYear = 329;
+      const startMonth = 10; // Shawwal
+      const startDay = 10;
 
-        hijriTimer();
-        setTimeout(updateSeconds, 1000);
-    </script>
+      let yearsPassed = currentHijri.year - startYear;
+      let monthsPassed = currentHijri.month - startMonth;
+      let daysPassed = currentHijri.day - startDay;
 
+      // Adjust days if negative
+      if (daysPassed < 0) {
+        monthsPassed -= 1;
+        // We assume ~30 days in a Hijri month for the correction
+        daysPassed += 30; 
+      }
+
+      // Adjust months if negative
+      if (monthsPassed < 0) {
+        yearsPassed -= 1;
+        monthsPassed += 12;
+      }
+
+      // Convert to total hijri months, days
+      const totalHijriMonths = yearsPassed * 12 + monthsPassed;
+      const totalHijriDays = (yearsPassed * 354) // ~354 days/year
+                            + (monthsPassed * 30) // ~30 days/month
+                            + daysPassed; // leftover days
+
+      return {
+        years: yearsPassed,
+        months: totalHijriMonths,
+        days: totalHijriDays
+      };
+    }
+
+    /************************************************************
+     * 3) CALCULATE APPROX HOURS & SECONDS FROM GREGORIAN DIFF
+     ************************************************************
+     * We'll treat July 29, 941 CE as the Gregorian date
+     * for 10 Shawwal 329 AH.
+     ************************************************************/
+    const ghaybahStartGregorian = new Date(941, 6, 29); // July 29, 941 (month is zero-based: 6=July)
+
+    function getGregorianDiff() {
+      const now = new Date();
+      const diffMs = now - ghaybahStartGregorian;
+
+      // Total days since Ghaybah start (approx)
+      const diffDays = diffMs / (1000 * 60 * 60 * 24);
+
+      // Hours & seconds (approx)
+      const totalHours = Math.floor(diffDays * 24);
+      const totalSeconds = Math.floor(diffMs / 1000);
+
+      return { hours: totalHours, seconds: totalSeconds };
+    }
+
+    /************************************************************
+     * 4) MAIN LOGIC
+     ************************************************************/
+    async function initGhaybahTimer() {
+      // 1) Get the accurate current Hijri date from AlAdhan
+      const currentHijri = await getCurrentHijriDate();
+      if (!currentHijri) {
+        // Fallback or show error
+        document.getElementById("totalHijriYears").textContent = "Error";
+        document.getElementById("totalHijriMonths").textContent = "Error";
+        document.getElementById("totalHijriDays").textContent = "Error";
+        return;
+      }
+
+      // 2) Calculate Hijri difference
+      const diffHijri = getHijriDifference(currentHijri);
+      document.getElementById("totalHijriYears").textContent = diffHijri.years.toLocaleString();
+      document.getElementById("totalHijriMonths").textContent = diffHijri.months.toLocaleString();
+      document.getElementById("totalHijriDays").textContent = diffHijri.days.toLocaleString();
+
+      // 3) Calculate approximate hours & seconds from Gregorian difference
+      function updateGregorianDiff() {
+        const { hours, seconds } = getGregorianDiff();
+        document.getElementById("totalHours").textContent = hours.toLocaleString();
+        document.getElementById("totalSeconds").textContent = seconds.toLocaleString();
+      }
+
+      // Initial update
+      updateGregorianDiff();
+      // Update every second
+      setInterval(updateGregorianDiff, 1000);
+    }
+
+    // Start
+    initGhaybahTimer();
+  </script>
 </body>
 </html>

@@ -3,10 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ghaybah Timer</title>
+    <title>Ghaybah Timer (Hijri)</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
-
         body {
             font-family: 'Poppins', sans-serif;
             text-align: center;
@@ -16,30 +14,25 @@
         }
         
         .timer-container {
-            font-size: 32px;
+            font-size: 40px;
             font-weight: bold;
             padding: 20px;
             border-radius: 10px;
             background: rgba(255, 255, 255, 0.1);
             display: inline-block;
-            box-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
             margin-bottom: 20px;
-            letter-spacing: 1.5px;
-            text-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
         }
 
         h1 {
-            font-size: 38px;
-            margin-bottom: 20px;
-            text-shadow: 0 0 10px rgba(255, 140, 0, 0.8);
+            font-size: 36px;
+            margin-bottom: 15px;
         }
 
-        #ghaybahTimer {
+        #hijriTime {
             color: #FFD700; /* Gold color for emphasis */
-            font-size: 42px;
-            font-weight: 600;
-            text-shadow: 0 0 15px rgba(255, 215, 0, 1);
-            display: inline-block;
+            font-size: 48px;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
         }
 
         .cta-button {
@@ -48,48 +41,66 @@
             font-size: 18px;
             font-weight: bold;
             color: #ffffff;
-            background: linear-gradient(90deg, #ff8c00, #ff4500);
+            background: linear-gradient(90deg, #8a2be2, #4b0082);
             border: none;
             border-radius: 8px;
             text-decoration: none;
-            box-shadow: 0 4px 10px rgba(255, 140, 0, 0.5);
+            box-shadow: 0 4px 10px rgba(138, 43, 226, 0.5);
             transition: all 0.3s ease-in-out;
         }
 
         .cta-button:hover {
-            background: linear-gradient(90deg, #ff4500, #ff8c00);
+            background: linear-gradient(90deg, #4b0082, #8a2be2);
             transform: scale(1.05);
-            box-shadow: 0 6px 14px rgba(255, 140, 0, 0.8);
+            box-shadow: 0 6px 14px rgba(138, 43, 226, 0.8);
         }
     </style>
 </head>
 <body>
 
-    <h1>🌍 It has been <span id="ghaybahTimer"></span> since Ghaybah…</h1>
-    <div class="timer-container">⏳ Every second matters!</div>
+    <h1>🌍 It has been <span id="hijriTime"></span> since the start of Ghaybah al-Kubra…</h1>
+    <div class="timer-container">⏳ Every moment counts!</div>
     
     <br><br>
     <a href="https://your-action-link.com" class="cta-button">🚀 Let's Act Now! Serve the Cause of Imam al-Mahdi (a.t.f.s.)</a>
 
     <script>
-        function calculateTimeSinceGhaybah() {
-            const ghaybahStartDate = new Date(873, 5, 4); // Approx. June 4, 873 AD
-            const now = new Date();
+        function hijriTimer() {
+            // Ghaybah al-Kubra started on 10 Shawwal 329 AH
+            const hijriStartYear = 329;
+            const hijriStartMonth = 10; // Shawwal
+            const hijriStartDay = 1;
 
-            let timeDifference = now - ghaybahStartDate;
-            
-            let seconds = Math.floor((timeDifference / 1000) % 60);
-            let minutes = Math.floor((timeDifference / (1000 * 60)) % 60);
-            let hours = Math.floor((timeDifference / (1000 * 60 * 60)) % 24);
-            let days = Math.floor((timeDifference / (1000 * 60 * 60 * 24)) % 365);
-            let years = Math.floor(timeDifference / (1000 * 60 * 60 * 24 * 365));
+            // Get current Hijri date using Intl API
+            const today = new Date();
+            const hijriDate = new Intl.DateTimeFormat('en-TN-u-ca-islamic', {
+                year: 'numeric',
+                month: 'numeric',
+                day: 'numeric'
+            }).format(today);
 
-            document.getElementById("ghaybahTimer").textContent = 
-                `${years} years, ${days} days, ${hours}h ${minutes}m ${seconds}s`;
+            // Extract Hijri year, month, day
+            let [currentHijriMonth, currentHijriDay, currentHijriYear] = hijriDate.split("/").map(Number);
+
+            // Calculate difference
+            let yearsPassed = currentHijriYear - hijriStartYear;
+            let monthsPassed = currentHijriMonth - hijriStartMonth;
+            let daysPassed = currentHijriDay - hijriStartDay;
+
+            if (daysPassed < 0) {
+                monthsPassed -= 1;
+                daysPassed += 30; // Approximate month length
+            }
+            if (monthsPassed < 0) {
+                yearsPassed -= 1;
+                monthsPassed += 12;
+            }
+
+            document.getElementById("hijriTime").textContent = 
+                `${yearsPassed} years, ${monthsPassed} months, ${daysPassed} days`;
         }
 
-        setInterval(calculateTimeSinceGhaybah, 1000);
-        calculateTimeSinceGhaybah(); // Call once immediately to avoid delay
+        hijriTimer();
     </script>
 
 </body>

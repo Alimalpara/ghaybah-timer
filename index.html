@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ghaybah Timer</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
         body {
             font-family: 'Poppins', sans-serif;
             text-align: center;
@@ -14,25 +16,30 @@
         }
         
         .timer-container {
-            font-size: 40px;
+            font-size: 32px;
             font-weight: bold;
             padding: 20px;
             border-radius: 10px;
             background: rgba(255, 255, 255, 0.1);
             display: inline-block;
-            box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
             margin-bottom: 20px;
+            letter-spacing: 1.5px;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
         }
 
         h1 {
-            font-size: 36px;
-            margin-bottom: 15px;
+            font-size: 38px;
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px rgba(255, 140, 0, 0.8);
         }
 
-        #ghaybahDays {
+        #ghaybahTimer {
             color: #FFD700; /* Gold color for emphasis */
-            font-size: 48px;
-            text-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
+            font-size: 42px;
+            font-weight: 600;
+            text-shadow: 0 0 15px rgba(255, 215, 0, 1);
+            display: inline-block;
         }
 
         .cta-button {
@@ -58,24 +65,31 @@
 </head>
 <body>
 
-    <h1>🌍 It has been <span id="ghaybahDays"></span> days since Ghaybah…</h1>
-    <div class="timer-container">⏳ Every moment counts!</div>
+    <h1>🌍 It has been <span id="ghaybahTimer"></span> since Ghaybah…</h1>
+    <div class="timer-container">⏳ Every second matters!</div>
     
     <br><br>
     <a href="https://your-action-link.com" class="cta-button">🚀 Let's Act Now! Serve the Cause of Imam al-Mahdi (a.t.f.s.)</a>
 
     <script>
-        function calculateDaysSinceGhaybah() {
+        function calculateTimeSinceGhaybah() {
             const ghaybahStartDate = new Date(873, 5, 4); // Approx. June 4, 873 AD
-            const today = new Date();
+            const now = new Date();
+
+            let timeDifference = now - ghaybahStartDate;
             
-            const timeDifference = today - ghaybahStartDate;
-            const daysSinceGhaybah = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
-            
-            document.getElementById("ghaybahDays").textContent = daysSinceGhaybah.toLocaleString();
+            let seconds = Math.floor((timeDifference / 1000) % 60);
+            let minutes = Math.floor((timeDifference / (1000 * 60)) % 60);
+            let hours = Math.floor((timeDifference / (1000 * 60 * 60)) % 24);
+            let days = Math.floor((timeDifference / (1000 * 60 * 60 * 24)) % 365);
+            let years = Math.floor(timeDifference / (1000 * 60 * 60 * 24 * 365));
+
+            document.getElementById("ghaybahTimer").textContent = 
+                `${years} years, ${days} days, ${hours}h ${minutes}m ${seconds}s`;
         }
 
-        calculateDaysSinceGhaybah();
+        setInterval(calculateTimeSinceGhaybah, 1000);
+        calculateTimeSinceGhaybah(); // Call once immediately to avoid delay
     </script>
 
 </body>
